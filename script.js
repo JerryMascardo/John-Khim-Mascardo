@@ -7,6 +7,19 @@ const hero = document.querySelector('.hero');
 const parallaxItems = document.querySelectorAll('.hero-parallax span');
 const year = document.getElementById('year');
 const projectGrid = document.getElementById('project-grid');
+const formSuccess = document.getElementById('form-success');
+
+if (year) year.textContent = new Date().getFullYear();
+
+const urlParams = new URLSearchParams(window.location.search);
+if (formSuccess && urlParams.get('sent') === '1') {
+  formSuccess.textContent = 'Thanks! Your message was sent successfully.';
+  urlParams.delete('sent');
+  const nextQuery = urlParams.toString();
+  const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}${window.location.hash}`;
+  window.history.replaceState({}, '', nextUrl);
+}
+
 
 if (year) year.textContent = new Date().getFullYear();
 
