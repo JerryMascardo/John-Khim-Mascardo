@@ -145,17 +145,20 @@ h2 { font-size: clamp(1.6rem, 2.2vw, 2.2rem); margin-bottom: 1.2rem; }
 .timeline-item h3 { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem; font-size: 1.05rem; }
 .timeline-item h3 span { color: var(--muted); font-size: .9rem; font-weight: 500; }
 
-.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
 .project { padding: 1rem; }
 .project-media {
   border-radius: 12px;
-  height: 120px;
+  height: 165px;
   display: grid;
   place-items: center;
   margin-bottom: .85rem;
   background: linear-gradient(135deg, rgba(115,214,255,.24), rgba(159,123,255,.24));
   font-weight: 700;
+  overflow: hidden;
 }
+.image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb-fallback { color: #e7f0ff; font-size: .9rem; }
 .stack { color: var(--muted); font-size: .9rem; }
 
 .testimonial-slider { padding: 2rem; text-align: center; max-width: 780px; margin: 0 auto; }

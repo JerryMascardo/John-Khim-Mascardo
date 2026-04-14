@@ -6,6 +6,7 @@ const skillEls = document.querySelectorAll('.skill');
 const hero = document.querySelector('.hero');
 const parallaxItems = document.querySelectorAll('.hero-parallax span');
 const year = document.getElementById('year');
+const projectGrid = document.getElementById('project-grid');
 
 if (year) year.textContent = new Date().getFullYear();
 
@@ -50,7 +51,7 @@ sections.forEach((sec) => activeObserver.observe(sec));
 
 window.addEventListener('scroll', () => {
   const y = window.scrollY * 0.18;
-  hero.style.backgroundPositionY = `${y}px`;
+  if (hero) hero.style.backgroundPositionY = `${y}px`;
 });
 
 hero?.addEventListener('pointermove', (e) => {
@@ -61,6 +62,105 @@ hero?.addEventListener('pointermove', (e) => {
     item.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
   });
 });
+
+const projects = [
+  {
+    title: 'RealtyHub',
+    url: 'https://realtyhub.ph/',
+    description: 'A real-estate platform focused on property discovery, listing visibility, and lead capture for buyers and agents.',
+    stack: 'WordPress • Listings • SEO'
+  },
+  {
+    title: 'ShopSmart',
+    url: 'https://shopsmart.net.ph/',
+    description: 'An e-commerce website designed for clean product browsing, trust-building layout, and conversion-focused shopping flow.',
+    stack: 'WordPress • WooCommerce • UX'
+  },
+  {
+    title: 'Singapore School Cebu',
+    url: 'https://www.singaporeschoolcebu.com/',
+    description: 'A school website with clear program information, enrollment pathways, and parent-friendly navigation.',
+    stack: 'WordPress • Education Site • Performance'
+  },
+  {
+    title: 'Dinnox IT',
+    url: 'https://dinnoxit.com/',
+    description: 'A corporate IT website presenting services, credibility, and lead-generation touchpoints for prospective clients.',
+    stack: 'WordPress • Business Site • UI/UX'
+  },
+  {
+    title: 'Ornata',
+    url: 'https://ornata.ae/',
+    description: 'A visually refined brand website highlighting offerings through modern layouts, elegant sections, and polished storytelling.',
+    stack: 'WordPress • Branding • Responsive UI'
+  },
+  {
+    title: 'Group Polar',
+    url: 'https://www.grouppolar.com/',
+    description: 'A professional group/company website built to communicate services, company strengths, and project readiness.',
+    stack: 'WordPress • Corporate • SEO'
+  },
+  {
+    title: 'Ben Bacon Author',
+    url: 'https://benbaconauthor.com/',
+    description: 'An author platform tailored for book promotion, personal branding, and reader engagement.',
+    stack: 'WordPress • Author Site • Content'
+  },
+  {
+    title: 'Explora Books',
+    url: 'https://explorabooks.com/',
+    description: 'A publishing/book-centric website with a structured catalog experience and clear calls-to-action for readers.',
+    stack: 'WordPress • Books • Conversion'
+  },
+  {
+    title: 'Travajjo',
+    url: 'https://travajjo.com/',
+    description: 'A brand-forward website blending modern visuals with straightforward navigation for service and product discovery.',
+    stack: 'WordPress • Brand Site • UX'
+  },
+  {
+    title: 'Tamara Lesley',
+    url: 'https://tamaralesley.com/',
+    description: 'A clean author/personal website focused on storytelling, audience trust, and content accessibility.',
+    stack: 'WordPress • Personal Brand • SEO'
+  },
+  {
+    title: 'Rosanna Author',
+    url: 'https://rosanna-author.com/',
+    description: 'An author website featuring books, about pages, and audience connection points in an elegant layout.',
+    stack: 'WordPress • Author Portfolio • UI'
+  },
+  {
+    title: 'Claudette McLennon Books',
+    url: 'https://claudettemclennonbooks.com/',
+    description: 'A dedicated book website built for discoverability, title promotion, and simplified reader journeys.',
+    stack: 'WordPress • Books • Responsive'
+  },
+  {
+    title: 'Books by Renee Servello',
+    url: 'https://booksbyreneeservello.com/about/',
+    description: 'An author-focused website section that strengthens credibility through biography, brand voice, and book context.',
+    stack: 'WordPress • Author Bio • Content UX'
+  }
+];
+
+if (projectGrid) {
+  const cards = projects.map((project) => {
+    const thumbUrl = `https://image.thum.io/get/width/900/crop/560/noanimate/${project.url}`;
+    return `
+      <article class="project glass">
+        <div class="project-media image-wrap">
+          <img loading="lazy" src="${thumbUrl}" alt="Thumbnail preview of ${project.title}" onerror="this.style.display='none';this.parentElement.classList.add('thumb-fallback');this.parentElement.textContent='Preview unavailable';" />
+        </div>
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <p class="stack">${project.stack}</p>
+        <a class="btn btn-secondary" href="${project.url}" target="_blank" rel="noopener">Visit Site</a>
+      </article>
+    `;
+  });
+  projectGrid.innerHTML = cards.join('');
+}
 
 const testimonials = [
   {
