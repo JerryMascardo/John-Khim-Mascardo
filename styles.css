@@ -214,7 +214,7 @@ a { color: var(--accent); }
     transition: .2s ease;
   }
   .hero {
-    min-height: 70vh!important;
+    min-height: 65vh;
   }
   .nav-links.open { opacity: 1; visibility: visible; transform: scale(1); }
   .skills-grid, .grid-3, .project-grid, .contact-layout { grid-template-columns: 1fr; }
