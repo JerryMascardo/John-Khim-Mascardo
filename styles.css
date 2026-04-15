@@ -215,5 +215,5 @@ a { color: var(--accent); }
   }
   .nav-links.open { opacity: 1; visibility: visible; transform: scale(1); }
   .skills-grid, .grid-3, .project-grid, .contact-layout { grid-template-columns: 1fr; }
-  .section { padding: 4.5rem 0; }
+  .section { padding: 2.2rem 0; }
 }
