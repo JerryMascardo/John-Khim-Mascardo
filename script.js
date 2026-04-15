@@ -9,33 +9,43 @@ const year = document.getElementById('year');
 const projectGrid = document.getElementById('project-grid');
 const formSuccess = document.getElementById('form-success');
 
+// YEAR
 if (year) year.textContent = new Date().getFullYear();
 
+// FORM SUCCESS MESSAGE
 const urlParams = new URLSearchParams(window.location.search);
 if (formSuccess && urlParams.get('sent') === '1') {
   formSuccess.textContent = 'Thanks! Your message was sent successfully.';
   urlParams.delete('sent');
+
   const nextQuery = urlParams.toString();
   const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}${window.location.hash}`;
   window.history.replaceState({}, '', nextUrl);
 }
 
-
-if (year) year.textContent = new Date().getFullYear();
-
+// MOBILE MENU
 menuToggle?.addEventListener('click', () => {
   navLinks?.classList.toggle('open');
 });
 
+// CLOSE MENU ON CLICK
 navAnchors.forEach((anchor) => {
-  anchor.addEventListener('click', () => navLinks?.classList.remove('open'));
+  anchor.addEventListener('click', () => {
+    navLinks?.classList.remove('open');
+  });
 });
 
+// ==========================
+// 🔥 REVEAL OBSERVER (FIXED)
+// ==========================
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
+
       entry.target.classList.add('visible');
       revealObserver.unobserve(entry.target);
+
+      // SKILL ANIMATION
       if (entry.target.id === 'skills') {
         skillEls.forEach((skill) => {
           const level = skill.dataset.level || 0;
@@ -45,51 +55,72 @@ const revealObserver = new IntersectionObserver((entries) => {
       }
     }
   });
-}, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
-}, { threshold: 0.2 });
+}, {
+  threshold: 0.05,
+  rootMargin: '0px 0px -8% 0px'
+});
 
+// APPLY OBSERVER
 revealEls.forEach((el) => revealObserver.observe(el));
+
 const skillsSection = document.querySelector('#skills');
 if (skillsSection) revealObserver.observe(skillsSection);
 
+// ==========================
+// ACTIVE NAV HIGHLIGHT
+// ==========================
 const sections = document.querySelectorAll('main section');
+
 const activeObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       navAnchors.forEach((link) => link.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+
+      const active = document.querySelector(
+        `.nav-links a[href="#${entry.target.id}"]`
+      );
+
       active?.classList.add('active');
     }
   });
 }, { threshold: 0.45 });
+
 sections.forEach((sec) => activeObserver.observe(sec));
 
+// ==========================
+// SCROLL PARALLAX
+// ==========================
 window.addEventListener('scroll', () => {
   const y = window.scrollY * 0.18;
   if (hero) hero.style.backgroundPositionY = `${y}px`;
 });
 
+// POINTER PARALLAX
 hero?.addEventListener('pointermove', (e) => {
   const x = (e.clientX / window.innerWidth - 0.5) * 8;
   const y = (e.clientY / window.innerHeight - 0.5) * 8;
+
   parallaxItems.forEach((item, index) => {
     const factor = (index + 1) * 0.18;
     item.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
   });
 });
 
+// ==========================
+// PROJECTS RENDER
+// ==========================
 const projects = [
   {
     title: 'RealtyHub',
     url: 'https://realtyhub.ph/',
-    description: 'A real-estate platform focused on property discovery, listing visibility, and lead capture for buyers and agents.',
-    stack: 'WordPress • Listings • SEO'
+    description: 'Real estate platform for property discovery.',
+    stack: 'WordPress • SEO'
   },
   {
     title: 'ShopSmart',
     url: 'https://shopsmart.net.ph/',
-    description: 'An e-commerce website designed for clean product browsing, trust-building layout, and conversion-focused shopping flow.',
-    stack: 'WordPress • WooCommerce • UX'
+    description: 'E-commerce website optimized for conversion.',
+    stack: 'WooCommerce • UX'
   },
   {
     title: 'Singapore School Cebu',
@@ -162,33 +193,37 @@ const projects = [
 if (projectGrid) {
   const cards = projects.map((project) => {
     const thumbUrl = `https://image.thum.io/get/width/900/crop/560/noanimate/${project.url}`;
+
     return `
       <article class="project glass">
         <div class="project-media image-wrap">
-          <img loading="lazy" src="${thumbUrl}" alt="Thumbnail preview of ${project.title}" onerror="this.style.display='none';this.parentElement.classList.add('thumb-fallback');this.parentElement.textContent='Preview unavailable';" />
+          <img loading="lazy" src="${thumbUrl}" alt="${project.title}" 
+          onerror="this.style.display='none';this.parentElement.textContent='Preview unavailable';" />
         </div>
+
         <h3>${project.title}</h3>
         <p>${project.description}</p>
         <p class="stack">${project.stack}</p>
-        <a class="btn btn-secondary" href="${project.url}" target="_blank" rel="noopener">Visit Site</a>
+
+        <a class="btn btn-secondary" href="${project.url}" target="_blank">Visit</a>
       </article>
     `;
   });
+
   projectGrid.innerHTML = cards.join('');
 }
 
+// ==========================
+// TESTIMONIAL SLIDER
+// ==========================
 const testimonials = [
   {
-    quote: '“John Khim did a very good job! It is even beyond what we imagined. The customization of the site is even easier than our current site. Kudos to him!”',
-    author: 'Mik Y. – Singapore School Cebu (Client)'
+    quote: 'Great work! Beyond expectations.',
+    author: 'Client'
   },
   {
-    quote: '“Excellent communication and delivery. The final website was clean, fast, and exactly what our team needed.”',
-    author: 'Happy Client – Business Owner'
-  },
-  {
-    quote: '“Reliable, creative, and professional from start to finish. Highly recommended for WordPress and UI/UX work.”',
-    author: 'Project Partner – Marketing Team'
+    quote: 'Clean, fast, professional.',
+    author: 'Business Owner'
   }
 ];
 
@@ -196,10 +231,12 @@ const slider = document.querySelector('.testimonial-slider');
 const quote = slider?.querySelector('blockquote');
 const author = slider?.querySelector('.author');
 const buttons = document.querySelectorAll('.slide-btn');
+
 let current = 0;
 
 function renderSlide() {
   if (!quote || !author) return;
+
   quote.textContent = testimonials[current].quote;
   author.textContent = testimonials[current].author;
 }
@@ -211,6 +248,7 @@ buttons.forEach((btn) => {
   });
 });
 
+// AUTO SLIDE
 setInterval(() => {
   current = (current + 1) % testimonials.length;
   renderSlide();
