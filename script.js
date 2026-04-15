@@ -35,6 +35,7 @@ const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
       if (entry.target.id === 'skills') {
         skillEls.forEach((skill) => {
           const level = skill.dataset.level || 0;
@@ -44,6 +45,7 @@ const revealObserver = new IntersectionObserver((entries) => {
       }
     }
   });
+}, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
 }, { threshold: 0.2 });
 
 revealEls.forEach((el) => revealObserver.observe(el));
