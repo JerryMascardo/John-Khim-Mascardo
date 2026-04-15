@@ -20,6 +20,9 @@ if (formSuccess && urlParams.get('sent') === '1') {
   window.history.replaceState({}, '', nextUrl);
 }
 
+
+if (year) year.textContent = new Date().getFullYear();
+
 menuToggle?.addEventListener('click', () => {
   navLinks?.classList.toggle('open');
 });
@@ -43,6 +46,7 @@ const revealObserver = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
+}, { threshold: 0.2 });
 
 revealEls.forEach((el) => revealObserver.observe(el));
 const skillsSection = document.querySelector('#skills');
