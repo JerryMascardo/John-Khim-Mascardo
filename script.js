@@ -20,8 +20,6 @@ if (formSuccess && urlParams.get('sent') === '1') {
   window.history.replaceState({}, '', nextUrl);
 }
 
-if (year) year.textContent = new Date().getFullYear();
-
 menuToggle?.addEventListener('click', () => {
   navLinks?.classList.toggle('open');
   const opened = navLinks?.classList.toggle('open');

@@ -207,7 +207,6 @@ h2 { font-size: clamp(1.65rem, 2.3vw, 2.3rem); margin-bottom: 1.2rem; }
   place-items: center;
   margin-bottom: .85rem;
   background: linear-gradient(135deg, rgba(115,214,255,.24), rgba(159,123,255,.24));
-  font-weight: 700;
   overflow: hidden;
 }
 .image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -273,9 +272,6 @@ a { color: var(--accent); }
     opacity: 0;
     visibility: hidden;
     transition: .2s ease;
-  }
-  .hero {
-    min-height: 65vh;
   }
   .nav-links.open { opacity: 1; visibility: visible; transform: scale(1); }
   .skills-grid, .grid-3, .project-grid, .contact-layout { grid-template-columns: 1fr; }
