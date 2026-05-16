@@ -21,11 +21,13 @@ if (formSuccess && urlParams.get('sent') === '1') {
 }
 
 menuToggle?.addEventListener('click', () => {
+  navLinks?.classList.toggle('open');
   const opened = navLinks?.classList.toggle('open');
   menuToggle.setAttribute('aria-expanded', String(Boolean(opened)));
 });
 
 navAnchors.forEach((anchor) => {
+  anchor.addEventListener('click', () => navLinks?.classList.remove('open'));
   anchor.addEventListener('click', () => {
     navLinks?.classList.remove('open');
     menuToggle?.setAttribute('aria-expanded', 'false');
@@ -34,6 +36,16 @@ navAnchors.forEach((anchor) => {
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+      if (entry.target.id === 'skills') {
+        skillEls.forEach((skill) => {
+          const level = skill.dataset.level || 0;
+          const bar = skill.querySelector('.bar i');
+          if (bar) bar.style.width = `${level}%`;
+        });
+      }
     if (!entry.isIntersecting) return;
 
     entry.target.classList.add('visible');
@@ -47,6 +59,7 @@ const revealObserver = new IntersectionObserver((entries) => {
       });
     }
   });
+}, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
 }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
 
 revealEls.forEach((el) => revealObserver.observe(el));
@@ -56,6 +69,11 @@ if (skillsSection) revealObserver.observe(skillsSection);
 const sections = document.querySelectorAll('main section');
 const activeObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      navAnchors.forEach((link) => link.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      active?.classList.add('active');
+    }
     if (!entry.isIntersecting) return;
 
     navAnchors.forEach((link) => link.classList.remove('active'));
@@ -70,17 +88,99 @@ window.addEventListener('scroll', () => {
   if (hero) hero.style.backgroundPositionY = `${y}px`;
 });
 
+hero?.addEventListener('pointermove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 8;
+  const y = (e.clientY / window.innerHeight - 0.5) * 8;
 hero?.addEventListener('pointermove', (event) => {
   const x = (event.clientX / window.innerWidth - 0.5) * 11;
   const y = (event.clientY / window.innerHeight - 0.5) * 11;
 
   parallaxItems.forEach((item, index) => {
+    const factor = (index + 1) * 0.18;
     const factor = (index + 1) * 0.15;
     item.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
   });
 });
 
 const projects = [
+  {
+    title: 'RealtyHub',
+    url: 'https://realtyhub.ph/',
+    description: 'A real-estate platform focused on property discovery, listing visibility, and lead capture for buyers and agents.',
+    stack: 'WordPress • Listings • SEO'
+  },
+  {
+    title: 'ShopSmart',
+    url: 'https://shopsmart.net.ph/',
+    description: 'An e-commerce website designed for clean product browsing, trust-building layout, and conversion-focused shopping flow.',
+    stack: 'WordPress • WooCommerce • UX'
+  },
+  {
+    title: 'Singapore School Cebu',
+    url: 'https://www.singaporeschoolcebu.com/',
+    description: 'A school website with clear program information, enrollment pathways, and parent-friendly navigation.',
+    stack: 'WordPress • Education Site • Performance'
+  },
+  {
+    title: 'Dinnox IT',
+    url: 'https://dinnoxit.com/',
+    description: 'A corporate IT website presenting services, credibility, and lead-generation touchpoints for prospective clients.',
+    stack: 'WordPress • Business Site • UI/UX'
+  },
+  {
+    title: 'Ornata',
+    url: 'https://ornata.ae/',
+    description: 'A visually refined brand website highlighting offerings through modern layouts, elegant sections, and polished storytelling.',
+    stack: 'WordPress • Branding • Responsive UI'
+  },
+  {
+    title: 'Group Polar',
+    url: 'https://www.grouppolar.com/',
+    description: 'A professional group/company website built to communicate services, company strengths, and project readiness.',
+    stack: 'WordPress • Corporate • SEO'
+  },
+  {
+    title: 'Ben Bacon Author',
+    url: 'https://benbaconauthor.com/',
+    description: 'An author platform tailored for book promotion, personal branding, and reader engagement.',
+    stack: 'WordPress • Author Site • Content'
+  },
+  {
+    title: 'Explora Books',
+    url: 'https://explorabooks.com/',
+    description: 'A publishing/book-centric website with a structured catalog experience and clear calls-to-action for readers.',
+    stack: 'WordPress • Books • Conversion'
+  },
+  {
+    title: 'Travajjo',
+    url: 'https://travajjo.com/',
+    description: 'A brand-forward website blending modern visuals with straightforward navigation for service and product discovery.',
+    stack: 'WordPress • Brand Site • UX'
+  },
+  {
+    title: 'Tamara Lesley',
+    url: 'https://tamaralesley.com/',
+    description: 'A clean author/personal website focused on storytelling, audience trust, and content accessibility.',
+    stack: 'WordPress • Personal Brand • SEO'
+  },
+  {
+    title: 'Rosanna Author',
+    url: 'https://rosanna-author.com/',
+    description: 'An author website featuring books, about pages, and audience connection points in an elegant layout.',
+    stack: 'WordPress • Author Portfolio • UI'
+  },
+  {
+    title: 'Claudette McLennon Books',
+    url: 'https://claudettemclennonbooks.com/',
+    description: 'A dedicated book website built for discoverability, title promotion, and simplified reader journeys.',
+    stack: 'WordPress • Books • Responsive'
+  },
+  {
+    title: 'Books by Renee Servello',
+    url: 'https://booksbyreneeservello.com/about/',
+    description: 'An author-focused website section that strengthens credibility through biography, brand voice, and book context.',
+    stack: 'WordPress • Author Bio • Content UX'
+  }
   { title: 'Singapore School Cebu', url: 'https://www.singaporeschoolcebu.com/', description: 'A school website with clear program information, enrollment pathways, and parent-friendly navigation.', stack: 'WordPress • Education • Performance' },
   { title: 'Dinnox IT', url: 'https://dinnoxit.com/', description: 'A corporate IT website presenting services, credibility, and lead-generation touchpoints.', stack: 'WordPress • Corporate • UI/UX' },
   { title: 'Ornata', url: 'https://ornata.ae/', description: 'A visually refined brand website with polished storytelling and modern layouts.', stack: 'WordPress • Branding • Responsive UI' },
@@ -90,6 +190,7 @@ const projects = [
 ];
 
 if (projectGrid) {
+  const cards = projects.map((project) => {
   projectGrid.innerHTML = projects.map((project) => {
     const thumbUrl = `https://image.thum.io/get/width/900/crop/560/noanimate/${project.url}`;
     return `
@@ -103,10 +204,24 @@ if (projectGrid) {
         <a class="btn btn-secondary" href="${project.url}" target="_blank" rel="noopener">Visit Site</a>
       </article>
     `;
+  });
+  projectGrid.innerHTML = cards.join('');
   }).join('');
 }
 
 const testimonials = [
+  {
+    quote: '“John Khim did a very good job! It is even beyond what we imagined. The customization of the site is even easier than our current site. Kudos to him!”',
+    author: 'Mik Y. – Singapore School Cebu (Client)'
+  },
+  {
+    quote: '“Excellent communication and delivery. The final website was clean, fast, and exactly what our team needed.”',
+    author: 'Happy Client – Business Owner'
+  },
+  {
+    quote: '“Reliable, creative, and professional from start to finish. Highly recommended for WordPress and UI/UX work.”',
+    author: 'Project Partner – Marketing Team'
+  }
   { quote: '“John Khim did a very good job! It is even beyond what we imagined. The customization is easier than our current site. Kudos to him!”', author: 'Mik Y. – Singapore School Cebu (Client)' },
   { quote: '“Excellent communication and delivery. The final website was clean, fast, and exactly what our team needed.”', author: 'Business Owner – Client' },
   { quote: '“Reliable, creative, and professional from start to finish. Highly recommended for WordPress and UI/UX work.”', author: 'Marketing Team – Partner' }
