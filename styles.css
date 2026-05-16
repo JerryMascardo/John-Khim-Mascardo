@@ -8,6 +8,10 @@
   --radius: 18px;
 }
 
+/* =========================
+   RESET
+========================= */
+
 * {
   box-sizing: border-box;
 }
@@ -24,6 +28,10 @@ body {
   line-height: 1.6;
 }
 
+/* =========================
+   BACKGROUND
+========================= */
+
 .bg-gradient {
   position: fixed;
   inset: 0;
@@ -36,6 +44,10 @@ body {
   z-index: -2;
 }
 
+/* =========================
+   LAYOUT
+========================= */
+
 .container {
   width: min(1120px, 92vw);
   margin: 0 auto;
@@ -44,6 +56,10 @@ body {
 .section {
   padding: 6rem 0;
 }
+
+/* =========================
+   TYPOGRAPHY
+========================= */
 
 h1,
 h2,
@@ -66,6 +82,10 @@ h2 {
   max-width: 70ch;
 }
 
+/* =========================
+   GLASS EFFECT
+========================= */
+
 .glass {
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -73,4 +93,244 @@ h2 {
   border-radius: var(--radius);
 
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  position: sticky;
+  top: 1rem;
+  z-index: 20;
+
+  margin: 1rem auto 0;
+  width: min(1120px, 92vw);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.7rem 1rem;
+}
+
+.logo {
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.1rem;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: #fff;
+}
+
+.menu-toggle {
+  display: none;
+
+  background: transparent;
+  color: white;
+  border: 0;
+
+  font-size: 1.3rem;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 90vh;
+
+  display: grid;
+  place-items: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 1.6px;
+  font-size: 0.85rem;
+}
+
+.tagline {
+  color: var(--muted);
+  max-width: 58ch;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 0.8rem;
+
+  margin-top: 1.3rem;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+
+  padding: 0.74rem 1.1rem;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+
+  display: inline-flex;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  color: #051018;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      #a6eeff
+    );
+
+  box-shadow:
+    0 0 25px rgba(115, 214, 255, .35);
+}
+
+.btn-secondary {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(159, 123, 255, .35),
+      rgba(115, 214, 255, .3)
+    );
+
+  border: 1px solid rgba(255,255,255,.24);
+}
+
+/* =========================
+   HERO PARALLAX
+========================= */
+
+.hero-parallax {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.hero-parallax span {
+  position: absolute;
+
+  color: rgba(255,255,255,.2);
+  font-weight: 700;
+
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-parallax span:nth-child(1) {
+  top: 24%;
+  left: 8%;
+  font-size: 2.2rem;
+}
+
+.hero-parallax span:nth-child(2) {
+  top: 18%;
+  right: 11%;
+  font-size: 2rem;
+  animation-delay: .8s;
+}
+
+.hero-parallax span:nth-child(3) {
+  bottom: 24%;
+  left: 14%;
+  font-size: 1.8rem;
+  animation-delay: 1.5s;
+}
+
+.hero-parallax span:nth-child(4) {
+  bottom: 17%;
+  right: 15%;
+  font-size: 2.1rem;
+  animation-delay: .5s;
+}
+
+.hero-parallax span:nth-child(5) {
+  top: 50%;
+  left: 45%;
+  font-size: 1.7rem;
+  animation-delay: 2.1s;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1rem;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  padding: 1.25rem;
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+.card:hover,
+.timeline-item:hover,
+.project:hover {
+  transform: translateY(-5px);
+  border-color: rgba(115, 214, 255, .6);
 }
