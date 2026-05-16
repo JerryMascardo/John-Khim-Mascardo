@@ -24,10 +24,16 @@ if (year) year.textContent = new Date().getFullYear();
 
 menuToggle?.addEventListener('click', () => {
   navLinks?.classList.toggle('open');
+  const opened = navLinks?.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(Boolean(opened)));
 });
 
 navAnchors.forEach((anchor) => {
   anchor.addEventListener('click', () => navLinks?.classList.remove('open'));
+  anchor.addEventListener('click', () => {
+    navLinks?.classList.remove('open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+  });
 });
 
 const revealObserver = new IntersectionObserver((entries) => {
@@ -42,9 +48,21 @@ const revealObserver = new IntersectionObserver((entries) => {
           if (bar) bar.style.width = `${level}%`;
         });
       }
+    if (!entry.isIntersecting) return;
+
+    entry.target.classList.add('visible');
+    revealObserver.unobserve(entry.target);
+
+    if (entry.target.id === 'skills') {
+      skillEls.forEach((skill) => {
+        const level = Number(skill.dataset.level) || 0;
+        const bar = skill.querySelector('.bar i');
+        if (bar) bar.style.width = `${level}%`;
+      });
     }
   });
 }, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
 
 revealEls.forEach((el) => revealObserver.observe(el));
 const skillsSection = document.querySelector('#skills');
@@ -58,6 +76,11 @@ const activeObserver = new IntersectionObserver((entries) => {
       const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
       active?.classList.add('active');
     }
+    if (!entry.isIntersecting) return;
+
+    navAnchors.forEach((link) => link.classList.remove('active'));
+    const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+    active?.classList.add('active');
   });
 }, { threshold: 0.45 });
 sections.forEach((sec) => activeObserver.observe(sec));
@@ -70,8 +93,13 @@ window.addEventListener('scroll', () => {
 hero?.addEventListener('pointermove', (e) => {
   const x = (e.clientX / window.innerWidth - 0.5) * 8;
   const y = (e.clientY / window.innerHeight - 0.5) * 8;
+hero?.addEventListener('pointermove', (event) => {
+  const x = (event.clientX / window.innerWidth - 0.5) * 11;
+  const y = (event.clientY / window.innerHeight - 0.5) * 11;
+
   parallaxItems.forEach((item, index) => {
     const factor = (index + 1) * 0.18;
+    const factor = (index + 1) * 0.15;
     item.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
   });
 });
@@ -155,10 +183,17 @@ const projects = [
     description: 'An author-focused website section that strengthens credibility through biography, brand voice, and book context.',
     stack: 'WordPress • Author Bio • Content UX'
   }
+  { title: 'Singapore School Cebu', url: 'https://www.singaporeschoolcebu.com/', description: 'A school website with clear program information, enrollment pathways, and parent-friendly navigation.', stack: 'WordPress • Education • Performance' },
+  { title: 'Dinnox IT', url: 'https://dinnoxit.com/', description: 'A corporate IT website presenting services, credibility, and lead-generation touchpoints.', stack: 'WordPress • Corporate • UI/UX' },
+  { title: 'Ornata', url: 'https://ornata.ae/', description: 'A visually refined brand website with polished storytelling and modern layouts.', stack: 'WordPress • Branding • Responsive UI' },
+  { title: 'Explora Books', url: 'https://explorabooks.com/', description: 'A book-centric platform with structured discovery flow and clear call-to-actions.', stack: 'WordPress • Publishing • Conversion' },
+  { title: 'Ben Bacon Author', url: 'https://benbaconauthor.com/', description: 'An author platform tailored for book promotion, personal branding, and reader engagement.', stack: 'WordPress • Author • SEO' },
+  { title: 'Group Polar', url: 'https://www.grouppolar.com/', description: 'A professional company website communicating service depth and project readiness.', stack: 'WordPress • Business • Optimization' }
 ];
 
 if (projectGrid) {
   const cards = projects.map((project) => {
+  projectGrid.innerHTML = projects.map((project) => {
     const thumbUrl = `https://image.thum.io/get/width/900/crop/560/noanimate/${project.url}`;
     return `
       <article class="project glass">
@@ -173,6 +208,7 @@ if (projectGrid) {
     `;
   });
   projectGrid.innerHTML = cards.join('');
+  }).join('');
 }
 
 const testimonials = [
@@ -188,6 +224,9 @@ const testimonials = [
     quote: '“Reliable, creative, and professional from start to finish. Highly recommended for WordPress and UI/UX work.”',
     author: 'Project Partner – Marketing Team'
   }
+  { quote: '“John Khim did a very good job! It is even beyond what we imagined. The customization is easier than our current site. Kudos to him!”', author: 'Mik Y. – Singapore School Cebu (Client)' },
+  { quote: '“Excellent communication and delivery. The final website was clean, fast, and exactly what our team needed.”', author: 'Business Owner – Client' },
+  { quote: '“Reliable, creative, and professional from start to finish. Highly recommended for WordPress and UI/UX work.”', author: 'Marketing Team – Partner' }
 ];
 
 const slider = document.querySelector('.testimonial-slider');
@@ -209,6 +248,7 @@ buttons.forEach((btn) => {
   });
 });
 
+renderSlide();
 setInterval(() => {
   current = (current + 1) % testimonials.length;
   renderSlide();
